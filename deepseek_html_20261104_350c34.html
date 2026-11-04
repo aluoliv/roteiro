@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roteiro de Atividades - Pesquisa Micro:bit e Tinkercad</title>
+    <style>
+        :root {
+            --azul-mack: #0b2b4a;
+            --azul-hover: #1a4d7a;
+            --dourado: #c9a227;
+            --cinza-fundo: #f4f6f9;
+            --texto: #333333;
+            --branco: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cinza-fundo);
+            color: var(--texto);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--azul-mack);
+            color: var(--branco);
+            text-align: center;
+            padding: 40px 20px 30px;
+            border-bottom: 5px solid var(--dourado);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* ===== NAVEGAÇÃO EM ABAS ===== */
+        .tabs-nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--azul-mack);
+            border-bottom: 2px solid var(--dourado);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #b0c4d8;
+            padding: 16px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            color: var(--branco);
+            background-color: var(--azul-hover);
+        }
+
+        .tab-btn.ativo {
+            color: var(--branco);
+            border-bottom: 3px solid var(--dourado);
+            background-color: var(--azul-hover);
+        }
+
+        /* ===== CONTEÚDO DAS ABAS ===== */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.ativo {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .instrucoes {
+            background-color: var(--branco);
+            border-left: 5px solid var(--dourado);
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .instrucoes h2 {
+            font-size: 20px;
+            color: var(--azul-mack);
+            margin-bottom: 10px;
+        }
+
+        /* Formulários e QR Codes */
+        .formularios-section {
+            background-color: var(--branco);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--azul-mack);
+        }
+
+        .formularios-section h2 {
+            text-align: center;
+            color: var(--azul-mack);
+            margin-bottom: 25px;
+        }
+
+        .qr-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .qr-card {
+            background-color: var(--cinza-fundo);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .qr-card h3 {
+            font-size: 16px;
+            color: var(--azul-mack);
+            margin-bottom: 15px;
+            min-height: 40px;
+        }
+
+        .qr-card img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 15px;
+            border: 4px solid var(--branco);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .qr-card a {
+            display: inline-block;
+            background-color: var(--azul-mack);
+            color: var(--branco);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .qr-card a:hover {
+            background-color: var(--dourado);
+            color: var(--azul-mack);
+        }
+
+        /* Atividades */
+        .atividade-card {
+            background-color: var(--branco);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .atividade-header {
+            background-color: #e9ecef;
+            padding: 15px 20px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .atividade-header h3 {
+            color: var(--azul-mack);
+            font-size: 20px;
+        }
+
+        .imagens-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .coluna-imagem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .coluna-imagem h4 {
+            margin-bottom: 15px;
+            color: #555;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .coluna-imagem img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .coluna-imagem img:hover {
+            transform: scale(1.02);
+        }
+
+        /* ===== ESTILO PARA A ABA DE MATERIAIS ===== */
+        .materiais-container {
+            background-color: var(--branco);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--dourado);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .materiais-container h2 {
+            color: var(--azul-mack);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 26px;
+        }
+
+        .imagem-materiais {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .imagem-materiais img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+        }
+
+        .lista-materiais {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto 40px auto;
+            max-width: 600px;
+        }
+
+        .lista-materiais li {
+            background-color: var(--cinza-fundo);
+            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border-left: 4px solid var(--azul-mack);
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .lista-materiais li::before {
+            content: "✓";
+            color: var(--dourado);
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        /* ===== QUADRO INFORMATIVO DO CABO USB ATUALIZADO ===== */
+        .usb-info {
+            background-color: #f0f7ff;
+            border-left: 5px solid #2d9bf0;
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center; /* Alinha verticalmente a imagem e o texto */
+            gap: 25px; /* Espaço entre a imagem e o texto */
+            max-width: 750px;
+            margin: 0 auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .usb-imagem {
+            flex-shrink: 0; /* Impede que a imagem seja esmagada */
+        }
+
+        .usb-imagem img {
+            width: 150px; /* Tamanho redimensionado */
+            height: auto;
+            border-radius: 6px;
+            border: 2px solid var(--branco);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: block;
+        }
+
+        .usb-text h3 {
+            color: #0b2b4a;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .usb-text p {
+            margin: 0;
+            font-size: 15px;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        /* ===== ESTILO PARA ABAS DE PLATAFORMAS ===== */
+        .platform-card {
+            background-color: var(--branco);
+            border-radius: 8px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid #ccc;
+        }
+
+        .platform-card .icone-platform {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .platform-card h2 {
+            color: var(--azul-mack);
+            margin-bottom: 15px;
+            font-size: 26px;
+        }
+
+        .platform-card > p {
+            color: #666;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .platform-qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .platform-qr-container img {
+            width: 220px;
+            height: 220px;
+            border: 6px solid var(--cinza-fundo);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-platform {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--branco);
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: opacity 0.3s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-platform:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        .alerta-info {
+            background-color: #e8f4fd;
+            border-left: 5px solid #2d9bf0;
+            padding: 15px 20px;
+            margin: 0 auto 30px auto;
+            border-radius: 6px;
+            text-align: left;
+            max-width: 600px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .alerta-info p {
+            margin: 0 !important;
+            font-size: 15px;
+            color: #1a4d7a;
+        }
+
+        .alerta-info code {
+            background: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            border: 1px solid #b6d4f0;
+            font-family: monospace;
+            display: inline-block;
+            margin: 5px 0;
+            font-size: 15px;
+            color: #0b2b4a;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--azul-mack);
+            color: var(--branco);
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 900px) {
+            .qr-grid {
+                grid-template-columns: 1fr;
+            }
+            .qr-card h3 {
+                min-height: auto;
+            }
+            .tab-btn {
+                padding: 12px 12px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .imagens-container {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 22px;
+            }
+            .platform-card {
+                padding: 30px 20px;
+            }
+            .materiais-container {
+                padding: 20px;
+            }
+            .usb-info {
+                flex-direction: column; /* Empilha imagem e texto no celular */
+                text-align: center;
+            }
+            .usb-imagem img {
+                width: 120px; /* Um pouco menor no celular */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Pesquisa de Mestrado: Micro:bit e Tinkercad</h1>
+        <p>Roteiro de Atividades e Materiais de Apoio</p>
+    </header>
+
+    <!-- NAVEGAÇÃO EM ABAS -->
+    <nav class="tabs-nav">
+        <button class="tab-btn ativo" onclick="abrirAba(event, 'aba-roteiro')">📋 Roteiro</button>
+        <button class="tab-btn" onclick="abrirAba(event, 'aba-materiais')">🧰 Materiais</button>
+        <button class="tab-btn" onclick="abrirAba(event, 'aba-teams')">🎥 Teams</button>
+        <button class="tab-btn" onclick="abrirAba(event, 'aba-tinkercad')">🛠️ Tinkercad</button>
+        <button class="tab-btn" onclick="abrirAba(event, 'aba-makecode')">🧩 MakeCode</button>
+    </nav>
+
+    <!-- ABA 1: ROTEIRO DE ATIVIDADES -->
+    <div id="aba-roteiro" class="tab-content ativo">
+        <div class="container">
+
+            <div class="instrucoes">
+                <h2>Orientações Gerais</h2>
+                <p>Prezado(a) professor(a), abaixo estão os formulários da pesquisa e as 5 atividades que realizaremos durante nosso encontro. Para cada atividade, você encontrará a visualização dos blocos de programação tanto para o <strong>Micro:bit Físico</strong> (utilizando o MakeCode) quanto para o <strong>Simulador Tinkercad</strong>. Siga o roteiro de acordo com a modalidade do momento.</p>
+            </div>
+
+            <!-- SEÇÃO DE FORMULÁRIOS E QR CODES -->
+            <div class="formularios-section">
+                <h2>Acesso aos Formulários (Google Forms)</h2>
+                <p style="text-align: center; margin-bottom: 20px; font-size: 14px; color: #666;">Escaneie o QR-Code com a câmera do seu celular ou clique no botão para abrir o formulário.</p>
+
+                <div class="qr-grid">
+                    <!-- Formulário 1 -->
+                    <div class="qr-card">
+                        <h3>1. TCLE e Perfil</h3>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSc5EV4HKeCgQjj_iNJRoL2qdy4Yz5JTceU8LGky1Lmm_vWuiw%2Fviewform%3Fusp%3Dheader" alt="QR Code TCLE e Perfil">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc5EV4HKeCgQjj_iNJRoL2qdy4Yz5JTceU8LGky1Lmm_vWuiw/viewform?usp=header" target="_blank">Abrir Formulário</a>
+                    </div>
+
+                    <!-- Formulário 2 -->
+                    <div class="qr-card">
+                        <h3>2. SUS e TAM<br>(Microbit Físico)</h3>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLScZxoBEftUp3eIAf8ziGWJ1VRxXATQ88CEow6cZjM4vODVVtA%2Fviewform%3Fusp%3Dheader" alt="QR Code SUS e TAM Microbit Físico">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLScZxoBEftUp3eIAf8ziGWJ1VRxXATQ88CEow6cZjM4vODVVtA/viewform?usp=header" target="_blank">Abrir Formulário</a>
+                    </div>
+
+                    <!-- Formulário 3 -->
+                    <div class="qr-card">
+                        <h3>3. SUS e TAM<br>(Simulador Tinkercad)</h3>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSePITj2VFAes0dBGciQg3_oXOSFBHtnaL03PFrx0YsFotFLnA%2Fviewform%3Fusp%3Dheader" alt="QR Code SUS e TAM Simulador Tinkercad">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSePITj2VFAes0dBGciQg3_oXOSFBHtnaL03PFrx0YsFotFLnA/viewform?usp=header" target="_blank">Abrir Formulário</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATIVIDADE 1 -->
+            <div class="atividade-card">
+                <div class="atividade-header">
+                    <h3>Atividade 1 – Apresentar um ícone</h3>
+                </div>
+                <div class="imagens-container">
+                    <div class="coluna-imagem">
+                        <h4>Micro:bit Físico (MakeCode)</h4>
+                        <img src="imagens/fisico1.png" alt="Programação no MakeCode para Micro:bit físico - Atividade 1">
+                    </div>
+                    <div class="coluna-imagem">
+                        <h4>Simulador Tinkercad</h4>
+                        <img src="imagens/tinkercad1.png" alt="Programação no Tinkercad para Simulador - Atividade 1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATIVIDADE 2 -->
+            <div class="atividade-card">
+                <div class="atividade-header">
+                    <h3>Atividade 2 – Animação cara feliz e triste</h3>
+                </div>
+                <div class="imagens-container">
+                    <div class="coluna-imagem">
+                        <h4>Micro:bit Físico (MakeCode)</h4>
+                        <img src="imagens/fisico2.png" alt="Programação no MakeCode para Micro:bit físico - Atividade 2">
+                    </div>
+                    <div class="coluna-imagem">
+                        <h4>Simulador Tinkercad</h4>
+                        <img src="imagens/tinkercad2.png" alt="Programação no Tinkercad para Simulador - Atividade 2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATIVIDADE 3 -->
+            <div class="atividade-card">
+                <div class="atividade-header">
+                    <h3>Atividade 3 – Medir a Temperatura</h3>
+                </div>
+                <div class="imagens-container">
+                    <div class="coluna-imagem">
+                        <h4>Micro:bit Físico (MakeCode)</h4>
+                        <img src="imagens/fisico3.png" alt="Programação no MakeCode para Micro:bit físico - Atividade 3">
+                    </div>
+                    <div class="coluna-imagem">
+                        <h4>Simulador Tinkercad</h4>
+                        <img src="imagens/tinkercad3.png" alt="Programação no Tinkercad para Simulador - Atividade 3">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATIVIDADE 4 -->
+            <div class="atividade-card">
+                <div class="atividade-header">
+                    <h3>Atividade 4 – Medir o nível de luz</h3>
+                </div>
+                <div class="imagens-container">
+                    <div class="coluna-imagem">
+                        <h4>Micro:bit Físico (MakeCode)</h4>
+                        <img src="imagens/fisico4.png" alt="Programação no MakeCode para Micro:bit físico - Atividade 4">
+                    </div>
+                    <div class="coluna-imagem">
+                        <h4>Simulador Tinkercad</h4>
+                        <img src="imagens/tinkercad4.png" alt="Programação no Tinkercad para Simulador - Atividade 4">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ATIVIDADE 5 -->
+            <div class="atividade-card">
+                <div class="atividade-header">
+                    <h3>Atividade 5 – Acender e apagar um Led usando os botões do Microbit</h3>
+                </div>
+                <div class="imagens-container">
+                    <div class="coluna-imagem">
+                        <h4>Micro:bit Físico (MakeCode)</h4>
+                        <img src="imagens/fisico5.png" alt="Programação no MakeCode para Micro:bit físico - Atividade 5">
+                    </div>
+                    <div class="coluna-imagem">
+                        <h4>Simulador Tinkercad</h4>
+                        <img src="imagens/tinkercad5.png" alt="Programação no Tinkercad para Simulador - Atividade 5">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ABA 2: LISTA DE MATERIAIS -->
+    <div id="aba-materiais" class="tab-content">
+        <div class="container">
+            <div class="materiais-container">
+                <h2>Componentes Físicos Padronizados</h2>
+
+                <div class="imagem-materiais">
+                    <img src="imagens/materiais.png" alt="Componentes físicos: Microbit, cabos jacaré, LED, resistor e cabo USB">
+                </div>
+
+                <ul class="lista-materiais">
+                    <li>Computador com acesso à Internet</li>
+                    <li>Placa Micro:bit V2+</li>
+                    <li>Cabo USB (Tipo-B micro / USB-micro)</li>
+                    <li>1 LED colorido (qualquer cor)</li>
+                    <li>2 Cabos com garra jacaré</li>
+                    <li>1 Resistor (100Ω, 220Ω ou 330Ω)</li>
+                </ul>
+
+                <!-- QUADRO INFORMATIVO DO CABO USB COM IMAGEM -->
+                <div class="usb-info">
+                    <div class="usb-imagem">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfKpZuTz3Afme8NLLFZURY3hLQjsIOL44c6JUIzt9H3Q&s=10" alt="Cabo USB Tipo-B micro">
+                    </div>
+                    <div class="usb-text">
+                        <h3>Sobre o Cabo USB</h3>
+                        <p>O Micro:bit possui um conector <strong>USB Type-B micro</strong> (também chamado de USB-micro ou USB-B). A interface USB é utilizada para <strong>transferir o código</strong> para a placa e também para <strong>alimentá-la</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABA 3: ACESSO AO TEAMS -->
+    <div id="aba-teams" class="tab-content">
+        <div class="container">
+            <div class="platform-card" style="border-top-color: #6264A7;">
+                <div class="icone-platform" style="color: #6264A7;">🎥</div>
+                <h2>Sala de Reunião (Microsoft Teams)</h2>
+                <p>
+                    Utilize o botão abaixo para entrar na sala virtual da nossa atividade.
+                    Se preferir acessar pelo celular, basta escanear o QR-Code com a câmera do seu dispositivo.
+                </p>
+
+                <div class="platform-qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fteams.microsoft.com%2Fmeet%2F2923142824990153%3Fp%3DXZMqjZDGUJ0ISuaQRw" alt="QR Code para acessar a reunião no Microsoft Teams">
+                    <a href="https://teams.microsoft.com/meet/2923142824990153?p=XZMqjZDGUJ0ISuaQRw" target="_blank" class="btn-platform" style="background-color: #6264A7;">
+                        Entrar na Reunião
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABA 4: ACESSO AO TINKERCAD -->
+    <div id="aba-tinkercad" class="tab-content">
+        <div class="container">
+            <div class="platform-card" style="border-top-color: #2d9bf0;">
+                <div class="icone-platform" style="color: #2d9bf0;">🛠️</div>
+                <h2>Simulador Tinkercad</h2>
+                <p>
+                    Acesse a plataforma Tinkercad para realizar as atividades simuladas.
+                    Utilize o botão ou escaneie o QR-Code para abrir o site no seu celular ou tablet.
+                </p>
+
+                <div class="alerta-info">
+                    <p>💡 <strong>Atenção:</strong> Caso você não tenha cadastro, acesse com o e-mail:</p>
+                    <code>pesquisa.mackenzie@outlook.com</code>
+                    <p style="font-size: 14px; color: #555; margin-top: 5px !important;">A senha será fornecida pelo pesquisador.</p>
+                </div>
+
+                <div class="platform-qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fwww.tinkercad.com%2F" alt="QR Code para acessar o Tinkercad">
+                    <a href="https://www.tinkercad.com/" target="_blank" class="btn-platform" style="background-color: #2d9bf0;">
+                        Acessar Tinkercad
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABA 5: ACESSO AO MAKECODE -->
+    <div id="aba-makecode" class="tab-content">
+        <div class="container">
+            <div class="platform-card" style="border-top-color: #ffb900;">
+                <div class="icone-platform" style="color: #ffb900;">🧩</div>
+                <h2>Microsoft MakeCode for Micro:bit</h2>
+                <p>
+                    Acesse o ambiente de programação em blocos para o Micro:bit físico.
+                    Utilize o botão ou escaneie o QR-Code para abrir o site no seu celular ou tablet.
+                </p>
+
+                <div class="platform-qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fmakecode.microbit.org%2F" alt="QR Code para acessar o MakeCode">
+                    <a href="https://makecode.microbit.org/" target="_blank" class="btn-platform" style="background-color: #ffb900; color: #333;">
+                        Acessar MakeCode
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Universidade Presbiteriana Mackenzie - Programa de Pós-Graduação em Computação Aplicada</p>
+        <p>Pesquisador: André Luís de Oliveira | Orientadora: Prof.ª Dra. Maria Amélia Eliseo</p>
+    </footer>
+
+    <!-- SCRIPT PARA ALTERNAR AS ABAS -->
+    <script>
+        function abrirAba(evt, idAba) {
+            // Esconde todas as abas
+            const abas = document.querySelectorAll('.tab-content');
+            abas.forEach(aba => aba.classList.remove('ativo'));
+
+            // Remove a classe "ativo" de todos os botões
+            const botoes = document.querySelectorAll('.tab-btn');
+            botoes.forEach(btn => btn.classList.remove('ativo'));
+
+            // Mostra a aba selecionada e marca o botão como ativo
+            document.getElementById(idAba).classList.add('ativo');
+            evt.currentTarget.classList.add('ativo');
+
+            // Rola suavemente para o topo da página ao trocar de aba
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
